@@ -5,42 +5,6 @@ import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 
 // https://vite.dev/config/
-// export default defineConfig({
-//   base: "/ui/v1/remote",
-//   server: {
-//     port: 2000,
-//     hmr: {
-//       protocol: "ws",
-//       host: "localhost",
-//       clientPort: 80,
-//       path: "/__vite/ws",
-//     },
-//   },
-//   build: {
-//     target: "chrome89",
-//   },
-//   plugins: [
-//     react(),
-//     tailwindcss(),
-//     federation({
-//       name: "remote",
-//       filename: "remoteEntry.js",
-//       exposes: {
-//         "./App": "./src/App.tsx",
-//         "./Counter": "./src/components/Counter.tsx",
-//         "./store": "./src/store/index.ts",
-//       },
-//       remotes: {},
-//       shared: ["react", "react-dom", "react-router"],
-//     }),
-//   ],
-//   resolve: {
-//     alias: {
-//       "@": path.resolve(__dirname, "./src"),
-//     },
-//   },
-// });
-
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
 
@@ -50,14 +14,16 @@ export default defineConfig(({ mode }) => {
 
   const BASE_PATH = `/${SERVICE_TYPE}/${SERVICE_VERSION}/${SERVICE_NAME}`;
 
+  const hardPort = 2001;
+
   return {
     base: BASE_PATH,
     server: {
-      port: 2000,
+      port: hardPort,
       hmr: {
         protocol: "ws",
         host: "localhost",
-        clientPort: 80,
+        clientPort: parseInt(env.HMR_PORT) ?? hardPort,
         path: "/__vite/ws",
       },
     },

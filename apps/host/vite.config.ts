@@ -5,44 +5,6 @@ import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 
 // https://vite.dev/config/
-// export default defineConfig({
-//   base: "/ui/v1/host",
-//   server: {
-//     port: 2000,
-//     hmr: {
-//       protocol: "ws",
-//       host: "localhost",
-//       clientPort: 80,
-//       path: "/__vite/ws",
-//     },
-//   },
-//   build: {
-//     target: "chrome89",
-//   },
-//   plugins: [
-//     react(),
-//     tailwindcss(),
-//     federation({
-//       name: "host",
-//       filename: "remoteEntry.js",
-//       exposes: {},
-//       remotes: {
-//         remote: {
-//           type: "module",
-//           name: "remote",
-//           entry: "http://localhost/ui/v1/remote/remoteEntry.js",
-//         },
-//       },
-//       shared: ["react", "react-dom", "react-router"],
-//     }),
-//   ],
-//   resolve: {
-//     alias: {
-//       "@": path.resolve(__dirname, "./src"),
-//     },
-//   },
-// });
-
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
 
@@ -73,14 +35,16 @@ export default defineConfig(({ mode }) => {
     };
   }
 
+  const hardPort = 2000;
+
   return {
     base: BASE_PATH,
     server: {
-      port: 2000,
+      port: hardPort,
       hmr: {
         protocol: "ws",
         host: "localhost",
-        clientPort: 80,
+        clientPort: parseInt(env.HMR_PORT) ?? hardPort,
         path: "/__vite/ws",
       },
     },
@@ -98,7 +62,7 @@ export default defineConfig(({ mode }) => {
           remote: {
             type: "module",
             name: "remote",
-            entry: `http://localhost/ui/v1/remote/remoteEntry.js`,
+            entry: `http://localhost:2001/ui/v1/remote/remoteEntry.js`,
           },
           ...remoteConfig,
         },

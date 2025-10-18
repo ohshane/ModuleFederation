@@ -13,6 +13,8 @@ RUN pnpm install --frozen-lockfile --filter ./apps/${SERVICE_DIR}...
 
 WORKDIR /app/apps/${SERVICE_DIR}
 
+ENV HMR_PORT=80
+
 EXPOSE 2000
 
 CMD [ "pnpm", "run", "dev", "--host", "0.0.0.0", "--port", "2000" ]
