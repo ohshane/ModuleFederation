@@ -6,7 +6,15 @@ import path from "path";
 
 // https://vite.dev/config/
 export default defineConfig({
-  server: { port: 2001 },
+  server: {
+    port: 2000,
+    hmr: {
+      protocol: "ws",
+      host: "localhost",
+      clientPort: 80,
+      path: "/__vite/ws",
+    },
+  },
   build: {
     target: "chrome89",
   },
@@ -17,7 +25,6 @@ export default defineConfig({
       name: "remote",
       filename: "remoteEntry.js",
       exposes: {
-        "./styles": "./src/styles.ts",
         "./App": "./src/App.tsx",
         "./Counter": "./src/components/Counter.tsx",
         "./store": "./src/store/index.ts",
@@ -31,4 +38,5 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  base: "/ui/v1/remote",
 });

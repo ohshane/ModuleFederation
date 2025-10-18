@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router";
 import Home from './pages/Home';
 import About from './pages/About';
-// import '@/index.css'
+import './index.css'
 
 import React from 'react';
 
